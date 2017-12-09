@@ -8,9 +8,10 @@ Until recently, the shortest time difference between comparable images for a giv
 
 Additionally, Planet's collection strategy provides an unique opportunity for change detection on a much shorter time scale. Image frames collected during each satellite flight scan contain a small amount of geographic overlap with the previous frame in the scan. Frames are collected only less than two seconds apart, so a comparison of these overlapping regions makes rapid change detection possible. 
 
-<p>
-<img src="https://imgur.com/ns5hbzy.png" width="100%">
-</p>
+<figure>
+  <img src="https://imgur.com/ns5hbzy.png" width="100%">
+  <figcaption>Fig1. - A view of the pulpit rock in Norway.</figcaption>
+</figure>
 
 On this short time scale, any differences observed in the image regions are largely due to the physical displacement of objects on the ground due to their movement. The `movement.py` module can be used to search and process these overlapping image pairs to highlight this change.
 
