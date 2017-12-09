@@ -2,15 +2,17 @@
 The `movement.py` Python module enables the searching and processing of [Planet](https://www.planet.com/) imagery to highlight object movement between valid image pairs. Included are functions for filtering Planet API search results to identify image pairs, and for processing images into visual outputs.
 
 ## Methodology
-Change detection algorithms are commonly used in remote sensing imagery analysis to help identify the differences between two images collected over the same geographic area at different times.
+Change detection algorithms are commonly used in remote sensing imagery analysis to help identify the differences between two images collected over the same geographic area at different times. 
 
-Until recently, the shortest time difference between comparable images for a given geographic area could range from days to weeks due to the limited frequency of satellite collections over the area. This has changed with Planet's constellation of small satellites which image the entire earth every day, making daily change detection now possible for most of the globe.
+Planet's constellation of small satellites is able to image the earth every day, making daily change detection possible for most of the globe. This collection strategy also provides an unique opportunity for change detection on a much shorter time scale. 
 
-Additionally, Planet's collection strategy provides an unique opportunity for change detection on a much shorter time scale. Image frames collected during each satellite flight scan contain a small amount of geographic overlap with the previous frame in the scan. Frames are collected only less than two seconds apart, so a comparison of these overlapping regions makes rapid change detection possible. 
+Image frames collected during each satellite flight scan contain a small amount of geographic overlap with the previous frame in the scan. Frames are collected less than two seconds apart, so a comparison of these overlapping regions makes rapid change detection possible. 
+
+An example of this overlap between Time 1 and Time 2 images is shown below. 
 
 <img src="https://imgur.com/ns5hbzy.png" width="100%">
 
-On this short time scale, any differences observed in the image regions are largely due to the physical displacement of objects on the ground due to their movement. The `movement.py` module can be used to search and process these overlapping image pairs to highlight this change.
+On this short time scale, any differences observed in this overlap are largely due to the physical displacement of moving objects on the groud. The `movement.py` module can be used to search and process these overlapping image pairs to highlight this change.
 
 ## Setup
 ```bash
@@ -23,3 +25,60 @@ cd planet-movement
 # Install required modules
 pip install -r requirements.txt
 ```
+
+## Image Pairs
+Images are determined to be a valid pair if:
+1. Equal `satellite_id` values
+2. Equal `strip_id` values
+3. Difference in `acquired` values less than 2
+4. Overlapping image geometry
+ 
+The `find_pairs()` function filters Planet API search results to return a list of image pairs.  
+
+An example of filtering  
+```python
+# Python 3
+from planet import api
+import movement
+
+# Planet API client
+client = api.ClientV1()
+
+# Point of interest
+poi = {
+  "type": "Point",
+  "coordinates": [-122.38640785217285, 37.61647504351534]
+}
+
+# Geometry filter
+query = api.filters.and_filter(
+  api.filters.geom_filter(poi)
+)
+
+# Build search request
+item_types = ['PSScene3Band']
+request = api.filters.build_search_request(query, item_types)
+
+# Perform quick search
+results = client.quick_search(request)
+
+# Find image pairs within search results
+pairs = movement.find_pairs(results)
+print('Pairs found: ', len(pairs))
+for pair in pairs:
+    print(pair[0]['id'], pair[1]['id'])
+```
+
+
+
+```python
+from planet.api import downloader
+
+# Planet API Downloader
+dl = downloader.create(client)
+
+# Download first pair
+dl.download(iter(pairs[0]), ["visual"], r"C:/destination/folder")
+```
+
+
