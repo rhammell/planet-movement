@@ -14,22 +14,6 @@ An example of this overlap between Time 1 and Time 2 images is shown below.
 
 On this short time scale, any differences observed in this overlap are largely due to the physical displacement of moving objects on the groud. The `movement.py` module can be used to search and process the overlapping regions of these image pairs to highlight this change.
 
-## Examples
-Click for full images
-<p>
-  <img src="https://imgur.com/K8Ogqvn.png" width="400px">
-  <img src="https://imgur.com/BlQWuIL.png" width="400px">
-  <img src="https://imgur.com/vplmgbD.png" width="400px">
-  <img src="https://imgur.com/dHozIUB.png" width="400px">
-</p>
-
-<p>
-  <img src="https://imgur.com/qAMXRuY.png" width="400px">
-  <img src="https://imgur.com/7jFvD4e.png" width="400px">
-  <img src="https://imgur.com/t3odPKW.png" width="400px">
-  <img src="https://imgur.com/8vvbA1E.png" width="400px">
-</p>
-
 ## Setup
 ```bash
 # Clone this repository
@@ -98,3 +82,19 @@ dl.download(iter(pairs[0]), ["visual"], r"C:/destination/folder")
 
 ## Processing
 The `process_pairs()` function takes pairs of images to 
+
+### Example GIF Outputs
+<p>
+  <img src="https://imgur.com/K8Ogqvn.png" width="400px">
+  <img src="https://imgur.com/BlQWuIL.png" width="400px">
+  <img src="https://imgur.com/vplmgbD.png" width="400px">
+  <img src="https://imgur.com/dHozIUB.png" width="400px">
+</p>
+
+### Example CMV Outputs
+<p>
+  <img src="https://imgur.com/qAMXRuY.png" width="400px">
+  <img src="https://imgur.com/7jFvD4e.png" width="400px">
+  <img src="https://imgur.com/t3odPKW.png" width="400px">
+  <img src="https://imgur.com/8vvbA1E.png" width="400px">
+</p>
