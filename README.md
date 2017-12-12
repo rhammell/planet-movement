@@ -99,6 +99,12 @@ The GIF animation flickers between both images every half second and allows for 
 
 ### CMV Outputs
 The CMV is a three band image where band 1 contains a luminance-converted first input image, and bands 2 & 3 contain data from the second input image. 
+
+The CMV is a three band image, where the band 1 contains the first input image, converted to a single luminance image, and bands 2 & 3 contain the sencond image, converted to a single luminange image. Areas of change between the images show as either red or blue, while unchanged areas remain grayscale. 
+
+The .tif image retains the spatial reference data from its input images, which allows for distance measurements to be made. By knowing the displacement of objects in the scene, and the time between the two images, it becomes possible to calculate the speed of objects movement on the ground. 
+
+Examples are shown below. 
 <p>
   <img src="https://imgur.com/7jFvD4e.png" width="400px">
   <img src="https://imgur.com/qAMXRuY.png" width="400px">
