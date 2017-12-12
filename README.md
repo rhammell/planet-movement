@@ -16,10 +16,10 @@ On this short time scale, any differences observed in this overlap are largely d
 
 ## Examples
 <p>
-  <img src="https://imgur.com/BlQWuIL.png" width="300px">
-  <img src="https://imgur.com/K8Ogqvn.png" width="300px">
-  <img src="https://imgur.com/vplmgbD.png" width="300px">
-  <img src="https://imgur.com/dHozIUB.png" width="300px">
+  <img src="https://imgur.com/BlQWuIL.png" width="400px">
+  <img src="https://imgur.com/K8Ogqvn.png" width="400px">
+  <img src="https://imgur.com/vplmgbD.png" width="400px">
+  <img src="https://imgur.com/dHozIUB.png" width="400px">
 </p>
 
 ## Setup
