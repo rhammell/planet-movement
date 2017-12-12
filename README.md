@@ -35,13 +35,13 @@ pip install -r requirements.txt
 ```
 
 ## Image Pairs
-Images are determined to be a valid pair if:
+Images are determined to be a valid pair if they have:
 1. Equal `satellite_id` values
 2. Equal `strip_id` values
 3. Difference in `acquired` values less than 2
 4. Overlapping image geometry
- 
-The `find_pairs()` function filters Planet API search results to return a list of image pairs.  
+
+The `find_pairs()` function filters Planet API search results to return a list of image pairs. Each pair is contained in a two element tuple, where each image is represented as a Planet API image reference. 
 
 An example of filtering  
 ```python
@@ -77,7 +77,7 @@ for pair in pairs:
     print(pair[0]['id'], pair[1]['id'])
 ```
 
-
+Results from this filtering can be downloaded using standard Planet API methods. 
 
 ```python
 from planet.api import downloader
@@ -89,4 +89,5 @@ dl = downloader.create(client)
 dl.download(iter(pairs[0]), ["visual"], r"C:/destination/folder")
 ```
 
-
+## Processing
+The `process_pairs()` function takes pairs of images to 
