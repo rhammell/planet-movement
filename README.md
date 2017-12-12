@@ -15,11 +15,12 @@ An example of this overlap between Time 1 and Time 2 images is shown below.
 On this short time scale, any differences observed in this overlap are largely due to the physical displacement of moving objects on the groud. The `movement.py` module can be used to search and process these overlapping image pairs to highlight this change.
 
 ## Examples
+Click for full images
 <p>
-  <img src="https://imgur.com/K8Ogqvn.png" width="450px">
-  <img src="https://imgur.com/BlQWuIL.png" width="450px">
-  <img src="https://imgur.com/vplmgbD.png" width="450px">
-  <img src="https://imgur.com/dHozIUB.png" width="450px">
+  <img src="https://imgur.com/K8Ogqvn.png" width="400px">
+  <img src="https://imgur.com/BlQWuIL.png" width="400px">
+  <img src="https://imgur.com/vplmgbD.png" width="400px">
+  <img src="https://imgur.com/dHozIUB.png" width="400px">
 </p>
 
 ## Setup
