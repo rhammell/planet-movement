@@ -81,7 +81,12 @@ dl.download(iter(pairs[0]), ["visual"], r"C:/destination/folder")
 ```
 
 ## Processing
-The `process_pairs()` function takes pairs of images to 
+The `process_pairs()` function takes the filenames of image pairs and creates two visual outputs.
+
+```python
+movement.process_pair(r"C:/path/to/image1.tif", r"C:/path/to/image2.tif")
+```
+
 
 ### Example GIF Outputs
 <p>
@@ -93,8 +98,8 @@ The `process_pairs()` function takes pairs of images to
 
 ### Example CMV Outputs
 <p>
-  <img src="https://imgur.com/qAMXRuY.png" width="400px">
   <img src="https://imgur.com/7jFvD4e.png" width="400px">
+  <img src="https://imgur.com/qAMXRuY.png" width="400px">
   <img src="https://imgur.com/t3odPKW.png" width="400px">
   <img src="https://imgur.com/8vvbA1E.png" width="400px">
 </p>
