@@ -1,11 +1,81 @@
+'''
+Find and process pairs of Planet image scenes to highlight object movement
+''' 
+
 import os
 import sys
-from osgeo import gdal, osr
+import dateutil.parser
 import numpy as np
+from shapely.geometry import Polygon
+from osgeo import gdal, osr
 from PIL import Image
 
 
-def movement(im_1, im_2, out_dir=None, CMV=True, GIF=True): 
+def is_pair(item_1, item_2):
+    """ Determine if two Planet Items are a pair
+
+    Valid pairs have equal satellite id's, equal strip id's, 
+    equal provider values, acquired times less than two seconds apart, and 
+    geometry polyons that intersect. 
+
+    Args:
+        item_1 (dict): Planet API Item reference
+        item_2 (dict): Planet API Item reference
+    """
+
+    # Check item properties
+    props_1 = item_1['properties']
+    props_2 = item_2['properties']
+    if (props_1['satellite_id'] != props_2['satellite_id'] or  
+       props_1['strip_id'] != props_2['strip_id']):
+        return False
+
+    # Check time difference
+    t1 = dateutil.parser.parse(props_1['acquired'])
+    t2 = dateutil.parser.parse(props_2['acquired'])
+    t_diff = abs(t1 - t2).total_seconds()
+    if t_diff > 2: 
+        return False
+
+    # Check geometry intersection
+    geom_1 = item_1['geometry']
+    geom_2 = item_2['geometry']
+    if (geom_1['type'] != 'Polygon' or 
+        geom_2['type'] != 'Polygon'):
+            return False
+    poly_1 = Polygon(geom_1['coordinates'][0])
+    poly_2 = Polygon(geom_2['coordinates'][0])
+    if poly_1.intersects(poly_2):
+        return True
+
+
+def find_pairs(items):
+    """ Return list of Planet Item pairs that
+
+    Operates on the result returned from a Planet API search and returns a list 
+    of tuples containing pairs of Planet Item references
+
+    Args:
+        items(planet.api.models.Items): Planet API search result 
+    """
+
+    # Set initial output
+    pairs = []
+
+    # List all items
+    all_items = [item for item in items.items_iter(None)]
+
+    # Find item pairs
+    if len(all_items) > 1: 
+        for i, item_1 in enumerate(all_items[:-1]):
+            for item_2 in all_items[i+1:]:
+                if is_pair(item_1, item_2):
+                    pairs.append((item_1, item_2))
+
+    return pairs
+
+
+def process_pair(im_1, im_2, out_dir=None, cmv=True, gif=True): 
     """ Highlight scene movement between overlapping raster images by creating
     different visual outputs, including Color-Multiview and GIF animation
 
@@ -73,7 +143,7 @@ def movement(im_1, im_2, out_dir=None, CMV=True, GIF=True):
     array_1 *= mask
     array_2 *= mask
 
-    # intersect image dimensions
+    # Intersect dimensions
     shape = array_1.shape
     cols = shape[2]
     rows = shape[1]
@@ -85,38 +155,31 @@ def movement(im_1, im_2, out_dir=None, CMV=True, GIF=True):
     originY = gt_1[3] + (rand_px * gt_1[4]) + (rand_py * gt_1[5])
 
     # Save color multi-view image
-    outname = out_dir + basename + '.tif' 
-    driver = gdal.GetDriverByName('GTiff')
-    outRaster = driver.Create(outname, cols, rows, 4, gdal.GDT_Byte)
-    outRaster.SetGeoTransform((originX, gt_1[1], 0, originY, 0, gt_1[5]))
-    outRaster.GetRasterBand(1).WriteArray(array_1[0,:,:])
-    outRaster.GetRasterBand(2).WriteArray(array_2[0,:,:])
-    outRaster.GetRasterBand(3).WriteArray(array_2[0,:,:])
-    outRaster.GetRasterBand(4).WriteArray(mask * 255)
-    outRaster.SetProjection(srs_1.ExportToWkt())
-    outRaster.FlushCache()
+    if cmv: 
+        outname = out_dir + basename + '.tif' 
+        driver = gdal.GetDriverByName('GTiff')
+        outRaster = driver.Create(outname, cols, rows, 4, gdal.GDT_Byte)
+        outRaster.SetGeoTransform((originX, gt_1[1], 0, originY, 0, gt_1[5]))
+        outRaster.GetRasterBand(1).WriteArray(array_1[0,:,:])
+        outRaster.GetRasterBand(2).WriteArray(array_2[0,:,:])
+        outRaster.GetRasterBand(3).WriteArray(array_2[0,:,:])
+        outRaster.GetRasterBand(4).WriteArray(mask * 255)
+        outRaster.SetProjection(srs_1.ExportToWkt())
+        outRaster.FlushCache()
 
     # Save gif image
-    gif_1 = np.zeros((rows,cols,4), dtype='uint8')
-    gif_2 = np.zeros((rows,cols,4), dtype='uint8')
-    for i in range(3):
-        gif_1[:,:,i] = array_1[i,:,:].astype('uint8')
-        gif_2[:,:,i] = array_2[i,:,:].astype('uint8')
-    gif_1[:,:,3] = mask * 255
-    gif_2[:,:,3] = mask * 255
+    if gif:
+        gif_1 = np.zeros((rows,cols,4), dtype='uint8')
+        gif_2 = np.zeros((rows,cols,4), dtype='uint8')
+        for i in range(3):
+            gif_1[:,:,i] = array_1[i,:,:].astype('uint8')
+            gif_2[:,:,i] = array_2[i,:,:].astype('uint8')
+        gif_1[:,:,3] = mask * 255
+        gif_2[:,:,3] = mask * 255
 
-    im_1 = Image.fromarray(gif_1).convert('L')
-    im_2 = Image.fromarray(gif_2).convert('L')
+        im_1 = Image.fromarray(gif_1)
+        im_2 = Image.fromarray(gif_2)
 
-    outname = out_dir + basename + '.gif'
-    im_1.save(outname, 'GIF', save_all=True, optimize=False, quality=100, 
-              append_images=[im_2], loop=0, duration=500)
-
-
-# Main function
-if __name__ == "__main__":
-
-    # Run movement function with command line inputs
-    movement(sys.argv[1], sys.argv[2])
-
-
+        outname = out_dir + basename + '.gif'
+        im_1.save(outname, 'GIF', save_all=True, optimize=False, quality=100, 
+                  append_images=[im_2], loop=0, duration=500)
