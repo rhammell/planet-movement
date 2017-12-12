@@ -44,7 +44,6 @@ Images are determined to be a valid pair if they have:
 
 The `find_pairs()` function filters Planet API search results to return a list of image pairs. Each pair is contained in a two element tuple, where each image is represented as a Planet API image reference. 
 
-An example of filtering  
 ```python
 # Python 3
 from planet import api
