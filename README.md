@@ -81,14 +81,15 @@ dl.download(iter(pairs[0]), ["visual"], r"C:/destination/folder")
 ```
 
 ## Processing
-The `process_pairs()` function takes the filenames of image pairs and creates two visual outputs.
+The `process_pairs()` function creates new visual outputs from an input image pair. 
 
 ```python
 movement.process_pair(r"C:/path/to/image1.tif", r"C:/path/to/image2.tif")
 ```
+The overlapping region of the pair is cropped out from each image and combined into a GIF animation (.gif) and a Color Multi-view (CMV) (.tif). 
 
-
-### Example GIF Outputs
+### GIF Outputs
+The GIF animation flickers between both images every half second and allows for easy visual comparison between the two images. Examples are shown below. 
 <p>
   <img src="https://imgur.com/K8Ogqvn.png" width="400px">
   <img src="https://imgur.com/BlQWuIL.png" width="400px">
@@ -96,7 +97,8 @@ movement.process_pair(r"C:/path/to/image1.tif", r"C:/path/to/image2.tif")
   <img src="https://imgur.com/dHozIUB.png" width="400px">
 </p>
 
-### Example CMV Outputs
+### CMV Outputs
+The CMV is a three band image where band 1 contains a luminance-converted first input image, and bands 2 & 3 contain data from the second input image. 
 <p>
   <img src="https://imgur.com/7jFvD4e.png" width="400px">
   <img src="https://imgur.com/qAMXRuY.png" width="400px">
