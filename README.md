@@ -23,6 +23,13 @@ Click for full images
   <img src="https://imgur.com/dHozIUB.png" width="400px">
 </p>
 
+<p>
+  <img src="https://imgur.com/qAMXRuY.png" width="400px">
+  <img src="https://imgur.com/7jFvD4e.png" width="400px">
+  <img src="https://imgur.com/t3odPKW.png" width="400px">
+  <img src="https://imgur.com/8vvbA1E.png" width="400px">
+</p>
+
 ## Setup
 ```bash
 # Clone this repository
