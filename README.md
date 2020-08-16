@@ -10,7 +10,9 @@ Image frames collected during each satellite flight scan contain a small amount 
 
 An example of this overlap between Time 1 and Time 2 images is shown below. 
 
-<img src="https://imgur.com/ns5hbzy.png" width="100%">
+<p align="center">
+  <img src="img/overlap.gif" width="100%">
+</p>
 
 On this short time scale, any differences observed in this overlap are largely due to the physical displacement of moving objects on the groud. The `movement.py` module can be used to search and process the overlapping regions of these image pairs to highlight this change.
 
@@ -90,11 +92,11 @@ The overlapping region of the pair is cropped out from each image and combined i
 
 ### GIF Outputs
 The GIF animation flickers between both images every half second and allows for easy visual comparison between the two images. Examples are shown below. 
-<p>
-  <img src="https://imgur.com/K8Ogqvn.png" width="400px">
-  <img src="https://imgur.com/BlQWuIL.png" width="400px">
-  <img src="https://imgur.com/vplmgbD.png" width="400px">
-  <img src="https://imgur.com/dHozIUB.png" width="400px">
+<p align="center">
+  <img src="img/gif_output_1.gif" width="400px">
+  <img src="img/gif_output_2.gif" width="400px">
+  <img src="img/gif_output_3.gif" width="400px">
+  <img src="img/gif_output_4.gif" width="400px">
 </p>
 
 ### CMV Outputs
@@ -102,10 +104,10 @@ The CMV is a three band image, where the band 1 contains the first input image, 
 
 Spatial reference data is retained in the .tif image, which allows for distance measurements to be made. By measuring the displacement of objects in the scene, and the time between the two images, it becomes possible to calculate the speed of objects movement on the ground. 
 
-Examples are shown below. 
-<p>
-  <img src="https://imgur.com/7jFvD4e.png" width="400px">
-  <img src="https://imgur.com/qAMXRuY.png" width="400px">
-  <img src="https://imgur.com/t3odPKW.png" width="400px">
-  <img src="https://imgur.com/8vvbA1E.png" width="400px">
+Examples are shown below.
+<p align="center">
+  <img src="img/cmv_output_1.png" width="400px">
+  <img src="img/cmv_output_2.png" width="400px">
+  <img src="img/cmv_output_3.png" width="400px">
+  <img src="img/cmv_output_4.png" width="400px">
 </p>
