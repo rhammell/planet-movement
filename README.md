@@ -11,7 +11,7 @@ Image frames collected during each satellite flight scan contain a small amount 
 An example of this overlap between Time 1 and Time 2 images is shown below. 
 
 <p align="center">
-  <img src="img/overlap.gif" width="100%">
+  <img src="img/overlap.png" width="100%">
 </p>
 
 On this short time scale, any differences observed in this overlap are largely due to the physical displacement of moving objects on the groud. The `movement.py` module can be used to search and process the overlapping regions of these image pairs to highlight this change.
